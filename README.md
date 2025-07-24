@@ -53,7 +53,6 @@ Build and run in Xcode 14.0 or later.
 
 ### Overlay Controls
 
-- **Click overlay** to expand/collapse
 - **Click input method** to switch immediately  
 - **Drag overlay** to reposition anywhere on screen
 - Position is automatically saved
@@ -61,7 +60,6 @@ Build and run in Xcode 14.0 or later.
 ### Configuration
 
 Open Preferences to:
-- **Add/remove input methods** from the overlay
 - **Refresh from system** to detect new input methods
 - **Open Input Sources Settings** to configure system input methods
 - **Toggle launch at login** (macOS 13+)
@@ -104,27 +102,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Add protocol interfaces for services
 - Write unit tests for business logic
 
-## Roadmap
-
-- [ ] Global keyboard shortcuts
-- [ ] Multiple overlay themes
-- [ ] Input method statistics
-- [ ] Custom flag/icon support
-- [ ] Multi-monitor support enhancements
-
-## FAQ
-
-**Q: Why does MISO need Input Monitoring permission?**
-A: It doesn't! Input Monitoring is only shown for potential future keyboard shortcut features. Core functionality works without any permissions.
-
-**Q: How is this different from other input switchers?**
-A: MISO requires zero permissions and works immediately. Most other tools require accessibility permissions which can be complex to set up.
-
-**Q: Can I hide MISO from the dock?**
-A: Yes! MISO runs as a menu bar utility by default and doesn't appear in the dock.
-
-**Q: Does MISO work with all input methods?**
-A: MISO works with any input method that appears in System Preferences → Input Sources, using the same APIs as the system switcher.
 
 ## License
 
