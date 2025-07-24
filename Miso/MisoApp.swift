@@ -5,13 +5,14 @@
 //  Created by hewig on 7/23/25.
 //
 
-import SwiftUI
+import AppKit
 
 @main
-struct MisoApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+class MisoApp {
+    static func main() {
+        let app = NSApplication.shared
+        let delegate = AppDelegate()
+        app.delegate = delegate
+        app.run()
     }
 }
