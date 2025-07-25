@@ -5,8 +5,8 @@
 //  Created by hewig on 7/23/25.
 //
 
-import Foundation
 import AppKit
+import Foundation
 
 protocol OverlayWindowServiceProtocol {
     func saveWindowPosition(_ position: WindowPosition)
@@ -24,7 +24,6 @@ class OverlayWindowService: OverlayWindowServiceProtocol {
     }
     
     func saveWindowPosition(_ position: WindowPosition) {
-        print(position)
         preferencesService.saveWindowPosition(position)
     }
     
@@ -37,7 +36,6 @@ class OverlayWindowService: OverlayWindowServiceProtocol {
         let visibleFrame = screen.visibleFrame
         
         let windowWidth: CGFloat = 200 // Approximate window width
-        let windowHeight: CGFloat = 60 // Approximate window height
         
         // Calculate dock height (difference between screen and visible frame)
         let dockHeight = screenFrame.maxY - visibleFrame.maxY

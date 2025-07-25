@@ -63,7 +63,6 @@ class OverlayWindowController: NSWindowController {
             let testFrame = NSRect(origin: savedOrigin, size: windowFrame.size)
             
             if screenFrame.intersects(testFrame) {
-                print("Restoring window to saved position: \(savedOrigin)")
                 window.setFrameOrigin(savedOrigin)
                 return
             } else {

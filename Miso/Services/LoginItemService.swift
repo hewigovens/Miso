@@ -5,9 +5,9 @@
 //  Created by hewig on 7/23/25.
 //
 
+import Combine
 import Foundation
 import ServiceManagement
-import Combine
 
 @available(macOS 13.0, *)
 class LoginItemService: ObservableObject {
@@ -30,10 +30,8 @@ class LoginItemService: ObservableObject {
             do {
                 if service.status == .enabled {
                     try await service.unregister()
-                    print("Successfully disabled launch at login")
                 } else {
-                    try await service.register()
-                    print("Successfully enabled launch at login")
+                    try service.register()
                 }
                 
                 await MainActor.run {
@@ -41,7 +39,6 @@ class LoginItemService: ObservableObject {
                 }
             } catch {
                 print("Failed to update login item: \(error.localizedDescription)")
-                
                 await MainActor.run {
                     updateStatus()
                 }
