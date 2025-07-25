@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "globe", accessibilityDescription: "MISO")
+            button.image = NSImage(systemSymbolName: "m.square.fill", accessibilityDescription: "Miso")
             button.action = #selector(toggleOverlay)
         }
 

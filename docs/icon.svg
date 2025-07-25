@@ -1,0 +1,39 @@
+<svg width="256" height="256" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+    <!-- 
+      MISO App Icon - Standalone SVG
+      This version removes non-standard filters for maximum compatibility.
+    -->
+    <defs>
+        <!-- Gradient for the miso soup. This is a standard SVG feature. -->
+        <radialGradient id="soupGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:#A52A2A; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#8B4513; stop-opacity:1" />
+        </radialGradient>
+    </defs>
+    
+    <!-- macOS Squircle background shape -->
+    <!-- Using a standard path for the shape ensures it renders correctly. -->
+    <path d="M512 0C144 0 0 144 0 512s144 512 512 512 512-144 512-512S880 0 512 0z" fill="#3d3d3d"/>
+    
+    <!-- Bowl of soup, filled with the radial gradient -->
+    <circle cx="512" cy="512" r="400" fill="url(#soupGradient)" />
+    
+    <!-- Tofu Keyboard Key -->
+    <!-- This is a simple rectangle shape with rounded corners. -->
+    <g transform="translate(412, 412)">
+        <rect x="0" y="0" width="200" height="200" rx="30" fill="#f8f9fa"/>
+    </g>
+
+    <!-- Scallion rings -->
+    <!-- These are simple circle shapes with a stroke, no fill. -->
+    <g transform="translate(700, 350)">
+        <circle cx="0" cy="0" r="25" fill="none" stroke="#228B22" stroke-width="12"/>
+    </g>
+    <g transform="translate(300, 700)">
+         <circle cx="0" cy="0" r="30" fill="none" stroke="#32CD32" stroke-width="15"/>
+    </g>
+     <g transform="translate(650, 650)">
+         <circle cx="0" cy="0" r="20" fill="none" stroke="#228B22" stroke-width="10"/>
+    </g>
+
+</svg>
