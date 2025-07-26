@@ -169,7 +169,8 @@ class InputMethodService: InputMethodServiceProtocol {
     
     private func deriveFlag(from sourceID: String, name: String) -> String {
         if sourceID.contains("ABC") || sourceID.contains("US") { return "🇺🇸" }
-        if sourceID.contains("SCIM") || sourceID.contains("Pinyin") || sourceID.contains("Chinese") { return "🇨🇳" }
+        if sourceID.contains("Hans") || sourceID.contains("Pinyin") || sourceID.contains("Chinese") { return "🇨🇳" }
+        if sourceID.contains("Hant") { return "🇹🇼" }
         if sourceID.contains("Japanese") || sourceID.contains("Kotoeri") { return "🇯🇵" }
         if sourceID.contains("Korean") || sourceID.contains("Hangul") { return "🇰🇷" }
         if sourceID.contains("Spanish") { return "🇪🇸" }

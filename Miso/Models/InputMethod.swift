@@ -14,8 +14,23 @@ struct InputMethod: Identifiable, Codable, Equatable {
     let flag: String
 
     static let defaultMethods = [
-        InputMethod(id: "com.apple.keylayout.ABC", name: "ABC", shortName: "EN", flag: "🇺🇸"),
-        InputMethod(id: "com.apple.inputmethod.SCIM.ITABC", name: "Pinyin - Simplified", shortName: "拼", flag: "🇨🇳"),
-        InputMethod(id: "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese", name: "Japanese", shortName: "あ", flag: "🇯🇵")
+        InputMethod(
+            id: "com.apple.keylayout.ABC",
+            name: "ABC",
+            shortName: "EN",
+            flag: "🇺🇸"
+        ),
+        InputMethod(
+            id: "com.apple.inputmethod.SCIM.ITABC",
+            name: "Pinyin - Simplified",
+            shortName: "拼",
+            flag: "🇨🇳"
+        ),
+        InputMethod(
+            id: "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese",
+            name: "Japanese",
+            shortName: "あ",
+            flag: "🇯🇵"
+        )
     ]
 }

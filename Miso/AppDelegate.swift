@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         overlayWindowController?.show()
     }
 
-    @objc private func toggleOverlay() {
+    @objc func toggleOverlay() {
         if let window = overlayWindowController?.window {
             if window.isVisible {
                 overlayWindowController?.hide()
@@ -59,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    @objc private func showPreferences() {
+    @objc func showPreferences() {
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
 
