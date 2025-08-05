@@ -31,12 +31,12 @@ class MisoApp {
         let appMenu = NSMenu()
         appMenuItem.submenu = appMenu
         
-        appMenu.addItem(NSMenuItem(title: "About MISO", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: ""))
+        appMenu.addItem(NSMenuItem(title: "About Miso", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: ""))
         appMenu.addItem(NSMenuItem.separator())
         appMenu.addItem(NSMenuItem(title: "Preferences...", action: #selector(AppDelegate.showPreferences), keyEquivalent: ","))
         appMenu.addItem(NSMenuItem.separator())
-        appMenu.addItem(NSMenuItem(title: "Quit MISO", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        
+        appMenu.addItem(NSMenuItem(title: "Quit Miso", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+
         // Help Menu
         let helpMenuItem = NSMenuItem()
         helpMenuItem.title = "Help"
@@ -46,6 +46,6 @@ class MisoApp {
         helpMenuItem.submenu = helpMenu
         NSApp.helpMenu = helpMenu
         
-        helpMenu.addItem(NSMenuItem(title: "MISO Help", action: #selector(NSApplication.showHelp(_:)), keyEquivalent: "?"))
+        helpMenu.addItem(NSMenuItem(title: "Miso Help", action: #selector(NSApplication.showHelp(_:)), keyEquivalent: "?"))
     }
 }

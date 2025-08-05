@@ -19,6 +19,25 @@ protocol InputMethodServiceProtocol {
 class InputMethodService: InputMethodServiceProtocol {
     static let shared = InputMethodService()
     
+    private struct InputMethodInfo {
+        let identifiers: [String]
+        let shortName: String
+        let flag: String
+        let priority: Int
+    }
+    
+    private static let inputMethodInfos: [InputMethodInfo] = [
+        InputMethodInfo(identifiers: ["ABC", "US"], shortName: "EN", flag: "🇺🇸", priority: 0),
+        InputMethodInfo(identifiers: ["Pinyin"], shortName: "拼", flag: "🇨🇳", priority: 1),
+        InputMethodInfo(identifiers: ["Shuangpin"], shortName: "双", flag: "🇨🇳", priority: 1),
+        InputMethodInfo(identifiers: ["Japanese", "Kotoeri", "Hiragana"], shortName: "あ", flag: "🇯🇵", priority: 2),
+        InputMethodInfo(identifiers: ["Katakana"], shortName: "ア", flag: "🇯🇵", priority: 2),
+        InputMethodInfo(identifiers: ["Korean", "Hangul"], shortName: "한", flag: "🇰🇷", priority: 3),
+        InputMethodInfo(identifiers: ["Hans", "Chinese"], shortName: "中", flag: "🇨🇳", priority: 4),
+        InputMethodInfo(identifiers: ["Hant"], shortName: "繁", flag: "🇹🇼", priority: 4),
+        InputMethodInfo(identifiers: ["Spanish"], shortName: "ES", flag: "🇪🇸", priority: 5),
+    ]
+    
     private init() {}
     
     func getCurrentInputMethodID() -> String? {
@@ -151,32 +170,29 @@ class InputMethodService: InputMethodServiceProtocol {
     }
     
     private func getMethodPriority(_ method: InputMethod) -> Int {
-        if method.id.contains("ABC") { return 0 }
-        if method.id.contains("Pinyin") { return 1 }
-        if method.id.contains("Japanese") { return 2 }
-        if method.id.contains("Korean") { return 3 }
+        for info in Self.inputMethodInfos {
+            if info.identifiers.contains(where: { method.id.contains($0) }) {
+                return info.priority
+            }
+        }
         return 99
     }
     
     private func deriveShortName(from name: String, sourceID: String) -> String {
-        if sourceID.contains("ABC") { return "EN" }
-        if sourceID.contains("Pinyin") { return "拼" }
-        if sourceID.contains("Japanese") || sourceID.contains("Hiragana") { return "あ" }
-        if sourceID.contains("Katakana") { return "ア" }
-        if sourceID.contains("Korean") || sourceID.contains("Hangul") { return "한" }
+        for info in Self.inputMethodInfos {
+            if info.identifiers.contains(where: { sourceID.contains($0) }) {
+                return info.shortName
+            }
+        }
         return String(name.prefix(2))
     }
     
     private func deriveFlag(from sourceID: String, name: String) -> String {
-        if sourceID.contains("ABC") || sourceID.contains("US") { return "🇺🇸" }
-        if sourceID.contains("Hans") || sourceID.contains("Pinyin") || sourceID.contains("Chinese") { return "🇨🇳" }
-        if sourceID.contains("Hant") { return "🇹🇼" }
-        if sourceID.contains("Japanese") || sourceID.contains("Kotoeri") { return "🇯🇵" }
-        if sourceID.contains("Korean") || sourceID.contains("Hangul") { return "🇰🇷" }
-        if sourceID.contains("Spanish") { return "🇪🇸" }
-        if sourceID.contains("French") { return "🇫🇷" }
-        if sourceID.contains("German") { return "🇩🇪" }
-        if sourceID.contains("Russian") { return "🇷🇺" }
+        for info in Self.inputMethodInfos {
+            if info.identifiers.contains(where: { sourceID.contains($0) }) {
+                return info.flag
+            }
+        }
         return "🌐"
     }
 }

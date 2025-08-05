@@ -17,7 +17,7 @@ class PreferencesWindowController: NSWindowController {
             defer: false
         )
         
-        window.title = "MISO Preferences"
+        window.title = "Miso Preferences"
         window.center()
         window.isReleasedWhenClosed = false
         

@@ -19,7 +19,7 @@ struct PreferencesView: View {
                     .foregroundStyle(.tint)
 
                 VStack(alignment: .leading) {
-                    Text("MISO")
+                    Text("Miso")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                     Text("Method Input Switch Overlay")

@@ -63,7 +63,7 @@ class PermissionService: PermissionServiceProtocol {
     private func showInputMonitoringPermissionAlert() {
         let alert = NSAlert()
         alert.messageText = "Input Monitoring Permission Required"
-        alert.informativeText = "MISO needs input monitoring permissions to detect keyboard shortcuts globally.\n\nClick \"Grant Permission\" to add MISO to the input monitoring list and open System Preferences where you can enable it."
+        alert.informativeText = "Miso needs input monitoring permissions to detect keyboard shortcuts globally.\n\nClick \"Grant Permission\" to add Miso to the input monitoring list and open System Preferences where you can enable it."
         alert.alertStyle = .informational
         alert.addButton(withTitle: "Grant Permission")
         alert.addButton(withTitle: "Skip")
