@@ -7,9 +7,10 @@
 
 import Combine
 import Foundation
-import ServiceManagement
+@preconcurrency import ServiceManagement
 
 @available(macOS 13.0, *)
+@MainActor
 class LoginItemService: ObservableObject {
     static let shared = LoginItemService()
     

@@ -10,6 +10,7 @@ import Combine
 import AppKit
 import Carbon
 
+@MainActor
 class ContentViewModel: ObservableObject {
     @Published var configuredMethods: [InputMethod] = []
     @Published var currentInputMethodID: String = ""
@@ -132,8 +133,10 @@ class ContentViewModel: ObservableObject {
             forName: NSNotification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String),
             object: nil,
             queue: .main
-        ) { _ in
-            self.updateCurrentInputMethod()
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.updateCurrentInputMethod()
+            }
         }
     }
     

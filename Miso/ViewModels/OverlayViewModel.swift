@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import Carbon
 
+@MainActor
 class OverlayViewModel: ObservableObject {
     @Published var isExpanded: Bool = false
     @Published var configuredMethods: [InputMethod] = []
@@ -64,8 +65,10 @@ class OverlayViewModel: ObservableObject {
             forName: NSNotification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String),
             object: nil,
             queue: .main
-        ) { _ in
-            self.updateCurrentInputMethod()
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.updateCurrentInputMethod()
+            }
         }
     }
     

@@ -32,19 +32,34 @@ class OverlayWindowService: OverlayWindowServiceProtocol {
     }
     
     func calculateDefaultPosition(for screen: NSScreen) -> NSPoint {
-        let screenFrame = screen.frame // Use full screen frame, not visibleFrame
+        let screenFrame = screen.frame
         let visibleFrame = screen.visibleFrame
         
-        let windowWidth: CGFloat = 200 // Approximate window width
+        // Calculate actual window size based on number of input methods
+        let viewModel = OverlayViewModel()
+        let methodCount = max(viewModel.configuredMethods.count, 3)
+        let buttonSize: CGFloat = 36
+        let spacing: CGFloat = 4
+        let padding: CGFloat = 8
         
-        // Calculate dock height (difference between screen and visible frame)
-        let dockHeight = screenFrame.maxY - visibleFrame.maxY
+        let windowWidth = CGFloat(methodCount) * buttonSize + CGFloat(methodCount - 1) * spacing + 2 * padding + 20
+        let windowHeight = buttonSize + 2 * padding + 20
         
-        // Position at bottom right, aligned with dock
-        let margin: CGFloat = 20
-        let x = screenFrame.maxX - windowWidth - margin
-        let y = screenFrame.minY + dockHeight + margin // Just above the dock
+        // Calculate dock height (dock is at the bottom in macOS coordinates)
+        let dockHeight = visibleFrame.minY - screenFrame.minY
         
-        return NSPoint(x: x, y: y)
+        // Position at bottom right
+        let rightMargin: CGFloat = 10
+        let x = screenFrame.maxX - windowWidth - rightMargin
+        
+        // Position window to be centered with the dock vertically
+        // The dock occupies the space from screenFrame.minY to visibleFrame.minY
+        let dockCenterY = screenFrame.minY + (dockHeight / 2)
+        let y = dockCenterY - (windowHeight / 2)
+        
+        // Ensure the window is fully visible (not below screen bottom)
+        let finalY = max(y, screenFrame.minY + 5)
+        
+        return NSPoint(x: x, y: finalY)
     }
 }
