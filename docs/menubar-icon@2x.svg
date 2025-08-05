@@ -1,0 +1,21 @@
+<svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+    <!-- 
+      MISO Menubar Icon Template @2x
+      Designed for macOS menubar at 44x44 points (Retina)
+      Uses single color for template rendering
+    -->
+    
+    <!-- Bowl outline -->
+    <path d="M22 6C13 6 6 13 6 22C6 31 13 38 22 38C31 38 38 31 38 22C38 13 31 6 22 6Z" 
+          fill="none" 
+          stroke="black" 
+          stroke-width="3"/>
+    
+    <!-- Simplified tofu/keyboard key in center -->
+    <rect x="16" y="16" width="12" height="12" rx="2" 
+          fill="black"/>
+    
+    <!-- Small accent marks (simplified scallions) -->
+    <circle cx="30" cy="14" r="2" fill="black"/>
+    <circle cx="14" cy="30" r="2" fill="black"/>
+</svg>
