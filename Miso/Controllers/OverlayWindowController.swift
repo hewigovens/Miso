@@ -86,8 +86,6 @@ class OverlayWindowController: NSWindowController {
     
     func show() {
         window?.orderFront(nil)
-        window?.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
     }
     
     func hide() {

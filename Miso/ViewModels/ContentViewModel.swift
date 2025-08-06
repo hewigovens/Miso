@@ -5,10 +5,10 @@
 //  Created by hewig on 7/23/25.
 //
 
-import Foundation
-import Combine
 import AppKit
 import Carbon
+import Combine
+import Foundation
 
 @MainActor
 class ContentViewModel: ObservableObject {
@@ -16,6 +16,7 @@ class ContentViewModel: ObservableObject {
     @Published var currentInputMethodID: String = ""
     @Published var launchAtLoginEnabled: Bool = false
     @Published var hasInputMonitoringPermission: Bool = false
+    @Published var toggleOverlayOnMenuClick: Bool = false
     
     private let inputMethodService: InputMethodServiceProtocol
     private let preferencesService: PreferencesServiceProtocol
@@ -29,13 +30,15 @@ class ContentViewModel: ObservableObject {
     
     init(inputMethodService: InputMethodServiceProtocol = InputMethodService.shared,
          preferencesService: PreferencesServiceProtocol = PreferencesService.shared,
-         permissionService: PermissionServiceProtocol = PermissionService.shared) {
+         permissionService: PermissionServiceProtocol = PermissionService.shared)
+    {
         self.inputMethodService = inputMethodService
         self.preferencesService = preferencesService
         self.permissionService = permissionService
         
         setupBindings()
         loadConfiguredMethods()
+        loadToggleOverlaySetting()
         updateCurrentInputMethod()
         updatePermissionStatus()
         startMonitoringInputMethodChanges()
@@ -61,6 +64,18 @@ class ContentViewModel: ObservableObject {
     
     private func saveConfiguredMethods() {
         preferencesService.saveConfiguredMethods(configuredMethods)
+    }
+    
+    private func loadToggleOverlaySetting() {
+        toggleOverlayOnMenuClick = preferencesService.getToggleOverlayOnMenuClick()
+    }
+    
+    func updateToggleOverlaySetting(_ enabled: Bool) {
+        toggleOverlayOnMenuClick = enabled
+        preferencesService.setToggleOverlayOnMenuClick(enabled)
+        
+        // Notify AppDelegate to update status bar behavior
+        NotificationCenter.default.post(name: NSNotification.Name("ToggleOverlayPreferenceChanged"), object: nil)
     }
     
     func addInputMethod(_ method: InputMethod) {
@@ -117,6 +132,16 @@ class ContentViewModel: ObservableObject {
         // Update status after a delay to give user time to grant permission
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.updatePermissionStatus()
+        }
+    }
+    
+    func requestAndOpenInputMonitoringPermission() {
+        // Request permission first
+        permissionService.requestInputMonitoringPermission()
+        
+        // Then open system settings after a brief delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.permissionService.openInputMonitoringPreferences()
         }
     }
     

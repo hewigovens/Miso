@@ -28,7 +28,6 @@ class AppViewModel: ObservableObject {
             preferencesService.setHasLaunched()
         }
         
-        permissionService.requestInputMonitoringPermission()
     }
     
     func toggleOverlay() {

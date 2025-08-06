@@ -40,15 +40,15 @@ struct PreferencesView: View {
                     Spacer()
 
                     Button(action: {
-                        viewModel.openSystemPreferences()
+                        viewModel.refreshFromSystem()
                     }) {
-                        Label("System Preferences", systemImage: "gear")
+                        Image(systemName: "arrow.clockwise")
                     }
 
                     Button(action: {
-                        viewModel.refreshFromSystem()
+                        viewModel.openSystemPreferences()
                     }) {
-                        Label("Refresh", systemImage: "arrow.clockwise")
+                        Image(systemName: "gear")
                     }
                 }
 
@@ -100,9 +100,6 @@ struct PreferencesView: View {
 
                 // Input Monitoring Permission
                 HStack {
-                    Image(systemName: viewModel.hasInputMonitoringPermission ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundColor(viewModel.hasInputMonitoringPermission ? .green : .red)
-
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Input Monitoring")
                             .font(.body)
@@ -113,9 +110,13 @@ struct PreferencesView: View {
 
                     Spacer()
 
-                    if !viewModel.hasInputMonitoringPermission {
-                        Button("Open Settings") {
-                            viewModel.openInputMonitoringPreferences()
+                    if viewModel.hasInputMonitoringPermission {
+                        Label("Granted", systemImage: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.caption)
+                    } else {
+                        Button("Grant") {
+                            viewModel.requestAndOpenInputMonitoringPermission()
                         }
                         .buttonStyle(.bordered)
                     }
@@ -126,7 +127,7 @@ struct PreferencesView: View {
 
             // Settings
             VStack(alignment: .leading, spacing: 16) {
-                Text("Settings")
+                Text("Preferences")
                     .font(.headline)
 
                 if #available(macOS 13.0, *) {
@@ -139,6 +140,12 @@ struct PreferencesView: View {
                         .foregroundColor(.secondary)
                         .font(.caption)
                 }
+
+                Toggle("Toggle overlay on menu bar click", isOn: Binding(
+                    get: { viewModel.toggleOverlayOnMenuClick },
+                    set: { viewModel.updateToggleOverlaySetting($0) }
+                ))
+                .help("When enabled, clicking the menu bar icon will toggle the overlay visibility")
             }
         }
         .padding(30)

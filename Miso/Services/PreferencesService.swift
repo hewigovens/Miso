@@ -14,6 +14,8 @@ protocol PreferencesServiceProtocol {
     func saveWindowPosition(_ position: WindowPosition)
     func isFirstLaunch() -> Bool
     func setHasLaunched()
+    func getToggleOverlayOnMenuClick() -> Bool
+    func setToggleOverlayOnMenuClick(_ enabled: Bool)
 }
 
 class PreferencesService: PreferencesServiceProtocol {
@@ -22,6 +24,7 @@ class PreferencesService: PreferencesServiceProtocol {
     private let configuredMethodsKey = "ConfiguredInputMethods"
     private let windowPositionKey = "OverlayWindowPosition"
     private let hasLaunchedKey = "HasLaunchedBefore"
+    private let toggleOverlayOnMenuClickKey = "ToggleOverlayOnMenuClick"
     
     private init() {}
     
@@ -61,6 +64,15 @@ class PreferencesService: PreferencesServiceProtocol {
     
     func setHasLaunched() {
         UserDefaults.standard.set(true, forKey: hasLaunchedKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getToggleOverlayOnMenuClick() -> Bool {
+        return UserDefaults.standard.bool(forKey: toggleOverlayOnMenuClickKey)
+    }
+    
+    func setToggleOverlayOnMenuClick(_ enabled: Bool) {
+        UserDefaults.standard.set(enabled, forKey: toggleOverlayOnMenuClickKey)
         UserDefaults.standard.synchronize()
     }
 }
