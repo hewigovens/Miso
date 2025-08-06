@@ -4,9 +4,74 @@
 
 MISO is a macOS menu bar utility that provides a floating overlay for quick input method switching. It allows users to switch between configured input methods using a HUD-style overlay that can be toggled via the menu bar or keyboard shortcuts.
 
-## Architecture - MVVM Pattern
+It's built with Swift, AppKit, and SwiftUI, following an MVVM architecture. The core functionality of switching input methods is achieved using macOS's Text Input Source APIs, which notably do not require any special permissions.
 
-The application follows the Model-View-ViewModel (MVVM) architectural pattern with a clean separation of concerns.
+## Building and Running
+
+To build and run the project:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/miso.git
+    cd miso
+    ```
+2.  **Open the project in Xcode:**
+    ```bash
+    open Miso.xcodeproj
+    ```
+3.  **Build and run** using the Xcode interface (Cmd+R).
+
+The project is configured to build with Xcode 14.0+ and Swift 5.7+.
+
+### Build Configurations
+
+The project has two main build configurations:
+
+*   **Debug:** For development and testing.
+*   **Release:** For distribution.
+
+### Testing
+
+The `AI-CODING-ASSISTANT.md` file mentions a testing approach, but no test files are included in the project structure. To run tests (if they are added in the future), you would use the following command:
+
+```bash
+xcodebuild build -scheme Miso
+```
+
+## Development Conventions
+
+### Architecture
+
+*   **MVVM (Model-View-ViewModel):** The project follows a strict MVVM pattern to separate concerns.
+    *   **Models:** Data structures like `InputMethod` and `WindowPosition`.
+    *   **Views:** SwiftUI views for UI (`PreferencesView`) and AppKit for the overlay (`OverlayView`).
+    *   **ViewModels:** `AppViewModel`, `ContentViewModel`, and `OverlayViewModel` manage the application's state and logic.
+*   **Protocol-Oriented Design:** Services are defined by protocols for testability and maintainability.
+
+### Code Style
+
+*   Follow standard Swift naming conventions.
+*   Use the MVVM pattern for new features.
+*   Add protocol interfaces for services.
+*   Write unit tests for business logic.
+
+### Key Technologies
+
+*   **Swift:** The primary programming language.
+*   **AppKit:** For the core application lifecycle and window management.
+*   **SwiftUI:** For the preferences UI.
+*   **Core Graphics:** For custom drawing in the overlay view.
+*   **Combine:** For reactive UI updates.
+
+### Project Structure
+
+The project is organized into the following directories:
+
+*   `Miso/Models`: Data models.
+*   `Miso/Views`: UI-related files.
+*   `Miso/ViewModels`: View models.
+*   `Miso/Services`: Services for interacting with the system (input methods, permissions, etc.).
+*   `Miso/Controllers`: AppKit window controllers.
 
 ### Directory Structure
 
