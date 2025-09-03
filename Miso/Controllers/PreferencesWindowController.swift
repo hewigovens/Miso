@@ -8,6 +8,7 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 class PreferencesWindowController: NSWindowController {
     convenience init() {
         let window = NSWindow(

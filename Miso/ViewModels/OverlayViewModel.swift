@@ -23,14 +23,23 @@ class OverlayViewModel: ObservableObject {
         configuredMethods.first { $0.id == currentInputMethodID }
     }
     
-    init(inputMethodService: InputMethodServiceProtocol = InputMethodService.shared,
-         preferencesService: PreferencesServiceProtocol = PreferencesService.shared) {
+    // Designated initializer without defaulted @MainActor singletons
+    init(inputMethodService: InputMethodServiceProtocol,
+         preferencesService: PreferencesServiceProtocol) {
         self.inputMethodService = inputMethodService
         self.preferencesService = preferencesService
         
         loadConfiguredMethods()
         updateCurrentInputMethod()
         startMonitoringInputMethodChanges()
+    }
+    
+    // Convenience initializer that injects shared services
+    convenience init() {
+        self.init(
+            inputMethodService: InputMethodService.shared,
+            preferencesService: PreferencesService.shared
+        )
     }
     
     private func loadConfiguredMethods() {
@@ -54,9 +63,8 @@ class OverlayViewModel: ObservableObject {
     
     private func updateCurrentInputMethod() {
         if let id = inputMethodService.getCurrentInputMethodID() {
-            DispatchQueue.main.async {
-                self.currentInputMethodID = id
-            }
+            // We're already on the MainActor; assign directly.
+            self.currentInputMethodID = id
         }
     }
     

@@ -9,6 +9,7 @@ import AppKit
 import Carbon
 import Foundation
 
+@MainActor
 protocol InputMethodServiceProtocol {
     func getCurrentInputMethodID() -> String?
     func switchToInputMethod(_ methodID: String)
@@ -16,6 +17,7 @@ protocol InputMethodServiceProtocol {
     func getUserInputMethodsFromSystem() -> [InputMethod]
 }
 
+@MainActor
 class InputMethodService: InputMethodServiceProtocol {
     static let shared = InputMethodService()
     

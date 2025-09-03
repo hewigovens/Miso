@@ -8,6 +8,7 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 class OverlayWindowController: NSWindowController {
     private let overlayWindowService = OverlayWindowService.shared
     

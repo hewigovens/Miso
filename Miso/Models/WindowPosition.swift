@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WindowPosition: Codable {
+struct WindowPosition: Codable, Sendable {
     let x: Double
     let y: Double
 }

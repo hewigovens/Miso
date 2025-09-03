@@ -9,12 +9,13 @@ import AppKit
 import IOKit.hid
 import ServiceManagement
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var appViewModel: AppViewModel!
     private var overlayWindowController: OverlayWindowController?
     private var preferencesWindowController: PreferencesWindowController?
     private var statusItem: NSStatusItem?
-    private let preferencesService = PreferencesService.shared
+    private lazy var preferencesService = PreferencesService.shared
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Force UIElement mode (background app) even when running from Xcode

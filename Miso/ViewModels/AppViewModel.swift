@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import AppKit
 
+@MainActor
 class AppViewModel: ObservableObject {
     @Published var overlayVisible: Bool = false
     
@@ -16,10 +17,19 @@ class AppViewModel: ObservableObject {
     private let preferencesService: PreferencesServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(permissionService: PermissionServiceProtocol = PermissionService.shared,
-         preferencesService: PreferencesServiceProtocol = PreferencesService.shared) {
+    // Designated initializer: no defaulted parameters that reference @MainActor singletons
+    init(permissionService: PermissionServiceProtocol,
+         preferencesService: PreferencesServiceProtocol) {
         self.permissionService = permissionService
         self.preferencesService = preferencesService
+    }
+    
+    // Convenience initializer that supplies the shared singletons on the main actor
+    convenience init() {
+        self.init(
+            permissionService: PermissionService.shared,
+            preferencesService: PreferencesService.shared
+        )
     }
     
     func requestPermissions() {

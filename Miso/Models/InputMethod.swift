@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InputMethod: Identifiable, Codable, Equatable {
+struct InputMethod: Identifiable, Codable, Equatable, Sendable {
     let id: String
     let name: String
     let shortName: String

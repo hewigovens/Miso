@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 protocol PreferencesServiceProtocol {
     func getConfiguredMethods() -> [InputMethod]
     func saveConfiguredMethods(_ methods: [InputMethod])
@@ -18,6 +19,7 @@ protocol PreferencesServiceProtocol {
     func setToggleOverlayOnMenuClick(_ enabled: Bool)
 }
 
+@MainActor
 class PreferencesService: PreferencesServiceProtocol {
     static let shared = PreferencesService()
     
