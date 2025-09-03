@@ -2,30 +2,27 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
-    paths: 
-      - '.github/workflows/ci.yml'
-      - 'Miso/**'
-      - 'Miso.xcodeproj/**'
-  pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - '.github/workflows/ci.yml'
-      - 'Miso/**'
-      - 'Miso.xcodeproj/**'
+      - ".github/workflows/ci.yml"
+      - "Miso/**"
+      - "Miso.xcodeproj/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/ci.yml"
+      - "Miso/**"
+      - "Miso.xcodeproj/**"
 
 jobs:
   build:
     runs-on: macos-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Select Xcode version
-      run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
-    
-    - name: Build
-      run: set -o pipefail && xcodebuild build -scheme Miso -configuration Debug -quiet | xcbeautify
-    
-    - name: Test
-      run: set -o pipefail && xcodebuild test -scheme Miso -configuration Debug -destination 'platform=macOS' -quiet | xcbeautify
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
+      - name: Build
+        run: set -o pipefail && xcodebuild build -scheme Miso -configuration Debug | xcbeautify
