@@ -45,7 +45,8 @@ class PermissionService: PermissionServiceProtocol {
             let trust = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent)
 
             if trust != kIOHIDAccessTypeGranted {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                Task { @MainActor in
+                    try? await Task.sleep(nanoseconds: 1_000_000_000)
                     self.showInputMonitoringPermissionAlert()
                 }
             }

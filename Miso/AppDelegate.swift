@@ -9,6 +9,7 @@ import AppKit
 import IOKit.hid
 import ServiceManagement
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var appViewModel: AppViewModel!
     private var overlayWindowController: OverlayWindowController?

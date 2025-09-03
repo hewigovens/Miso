@@ -63,9 +63,8 @@ class OverlayViewModel: ObservableObject {
     
     private func updateCurrentInputMethod() {
         if let id = inputMethodService.getCurrentInputMethodID() {
-            DispatchQueue.main.async {
-                self.currentInputMethodID = id
-            }
+            // We're already on the MainActor; assign directly.
+            self.currentInputMethodID = id
         }
     }
     

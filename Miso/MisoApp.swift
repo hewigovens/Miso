@@ -8,6 +8,7 @@
 import AppKit
 
 @main
+@MainActor
 class MisoApp {
     static func main() {
         let app = NSApplication.shared

@@ -139,8 +139,9 @@ class ContentViewModel: ObservableObject {
     
     func openInputMonitoringPreferences() {
         permissionService.openInputMonitoringPreferences()
-        // Update status after a delay to give user time to grant permission
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        // Update status after a short delay to give user time to grant permission
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
             self.updatePermissionStatus()
         }
     }
@@ -150,16 +151,16 @@ class ContentViewModel: ObservableObject {
         permissionService.requestInputMonitoringPermission()
         
         // Then open system settings after a brief delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 500_000_000)
             self.permissionService.openInputMonitoringPreferences()
         }
     }
     
     private func updateCurrentInputMethod() {
         if let id = inputMethodService.getCurrentInputMethodID() {
-            DispatchQueue.main.async {
-                self.currentInputMethodID = id
-            }
+            // We're already on the MainActor; assign directly.
+            self.currentInputMethodID = id
         }
     }
     

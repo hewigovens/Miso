@@ -8,6 +8,7 @@
 import AppKit
 import Combine
 
+@MainActor
 class OverlayView: NSView {
     private let viewModel = OverlayViewModel()
     private var cancellables = Set<AnyCancellable>()
@@ -34,18 +35,16 @@ class OverlayView: NSView {
 
     private func setupBindings() {
         viewModel.$currentInputMethodID
+            .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.needsDisplay = true
-                }
+                self?.needsDisplay = true
             }
             .store(in: &cancellables)
 
         viewModel.$configuredMethods
+            .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.needsDisplay = true
-                }
+                self?.needsDisplay = true
             }
             .store(in: &cancellables)
     }
