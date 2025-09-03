@@ -8,12 +8,14 @@
 import AppKit
 import Foundation
 
+@MainActor
 protocol OverlayWindowServiceProtocol {
     func saveWindowPosition(_ position: WindowPosition)
     func getWindowPosition() -> WindowPosition?
     func calculateDefaultPosition(for screen: NSScreen) -> NSPoint
 }
 
+@MainActor
 class OverlayWindowService: OverlayWindowServiceProtocol {
     static let shared = OverlayWindowService()
     

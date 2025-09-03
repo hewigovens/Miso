@@ -9,6 +9,7 @@ import AppKit
 import Foundation
 import IOKit.hid
 
+@MainActor
 protocol PermissionServiceProtocol {
     func requestInputMonitoringPermission()
     func checkInputMonitoringPermission() -> Bool
@@ -16,11 +17,11 @@ protocol PermissionServiceProtocol {
     func addToInputMonitoringPreferences()
 }
 
+@MainActor
 class PermissionService: PermissionServiceProtocol {
     static let shared = PermissionService()
 
     private init() {}
-
 
     func addToInputMonitoringPreferences() {
         // This will add the app to the Input Monitoring list (initially disabled)
@@ -51,14 +52,12 @@ class PermissionService: PermissionServiceProtocol {
         }
     }
 
-
     func checkInputMonitoringPermission() -> Bool {
         if #available(macOS 10.15, *) {
             return IOHIDCheckAccess(kIOHIDRequestTypeListenEvent) == kIOHIDAccessTypeGranted
         }
         return true
     }
-
 
     private func showInputMonitoringPermissionAlert() {
         let alert = NSAlert()
@@ -73,7 +72,6 @@ class PermissionService: PermissionServiceProtocol {
             self.openInputMonitoringPreferences()
         }
     }
-
 
     func openInputMonitoringPreferences() {
         let inputMonitoringURLs = [
