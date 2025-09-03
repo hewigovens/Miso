@@ -1,1 +1,1 @@
-This document has been merged into [CLAUDE.md](CLAUDE.md). Please refer to that file for details.
+AGENTS.md
