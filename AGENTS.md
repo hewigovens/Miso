@@ -98,7 +98,7 @@ Miso/
 ├── OverlayWindowController.swift # Overlay window management
 ├── LoginItemService.swift        # Launch at login functionality (macOS 13+)
 ├── Info.plist                    # App configuration (LSUIElement=true)
-AND CLAUDE.md                     # This documentation file
+AND AGENTS.md                     # This documentation file
 ```
 
 ### Component Responsibilities
