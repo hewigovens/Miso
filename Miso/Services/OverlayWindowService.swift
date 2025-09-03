@@ -21,8 +21,8 @@ class OverlayWindowService: OverlayWindowServiceProtocol {
     
     private let preferencesService: PreferencesServiceProtocol
     
-    init(preferencesService: PreferencesServiceProtocol = PreferencesService.shared) {
-        self.preferencesService = preferencesService
+    init(preferencesService: PreferencesServiceProtocol? = nil) {
+        self.preferencesService = preferencesService ?? PreferencesService.shared
     }
     
     func saveWindowPosition(_ position: WindowPosition) {

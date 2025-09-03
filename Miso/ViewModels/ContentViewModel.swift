@@ -28,9 +28,10 @@ class ContentViewModel: ObservableObject {
         LoginItemService.shared
     }
     
-    init(inputMethodService: InputMethodServiceProtocol = InputMethodService.shared,
-         preferencesService: PreferencesServiceProtocol = PreferencesService.shared,
-         permissionService: PermissionServiceProtocol = PermissionService.shared)
+    // Designated initializer: no defaulted parameters that reference @MainActor singletons
+    init(inputMethodService: InputMethodServiceProtocol,
+         preferencesService: PreferencesServiceProtocol,
+         permissionService: PermissionServiceProtocol)
     {
         self.inputMethodService = inputMethodService
         self.preferencesService = preferencesService
@@ -42,6 +43,15 @@ class ContentViewModel: ObservableObject {
         updateCurrentInputMethod()
         updatePermissionStatus()
         startMonitoringInputMethodChanges()
+    }
+    
+    // Convenience initializer that supplies the shared singletons on the main actor
+    convenience init() {
+        self.init(
+            inputMethodService: InputMethodService.shared,
+            preferencesService: PreferencesService.shared,
+            permissionService: PermissionService.shared
+        )
     }
     
     private func setupBindings() {
