@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Build
-      run: xcodebuild build -scheme Miso -configuration Debug
+      run: xcodebuild build -scheme Miso -configuration Debug | xcbeautify
     
     - name: Test
-      run: xcodebuild test -scheme Miso -configuration Debug -destination 'platform=macOS'
+      run: xcodebuild test -scheme Miso -configuration Debug -destination 'platform=macOS' | xcbeautify
