@@ -15,17 +15,20 @@ class OverlayView: NSView {
     private var isExpanded = true
     private var isMouseDown = false
     private var dragOffset = NSPoint.zero
+    private var lastDisplayedMethodCount = 0
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         setupView()
         setupBindings()
+        lastDisplayedMethodCount = viewModel.overlayMethods.count
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
         setupBindings()
+        lastDisplayedMethodCount = viewModel.overlayMethods.count
     }
 
     private func setupView() {
@@ -44,9 +47,21 @@ class OverlayView: NSView {
         viewModel.$configuredMethods
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.needsDisplay = true
+                guard let self else { return }
+                let displayCount = self.viewModel.overlayMethods.count
+                if displayCount != self.lastDisplayedMethodCount {
+                    self.lastDisplayedMethodCount = displayCount
+                    self.updateWindowSize()
+                }
+                self.needsDisplay = true
             }
             .store(in: &cancellables)
+    }
+    
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        lastDisplayedMethodCount = viewModel.overlayMethods.count
+        updateWindowSize()
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -93,12 +108,12 @@ class OverlayView: NSView {
     }
 
     private func drawExpandedView(ctx: CGContext) {
-        let methods = viewModel.configuredMethods
-        let buttonSize: CGFloat = 36 // Smaller buttons since no text
-        let spacing: CGFloat = 4
-        let padding: CGFloat = 8
+        let methods = viewModel.overlayMethods
+        let buttonSize = OverlayLayoutMetrics.buttonSize
+        let spacing = OverlayLayoutMetrics.spacing
+        let padding = OverlayLayoutMetrics.padding
 
-        let totalWidth = CGFloat(methods.count) * buttonSize + CGFloat(methods.count - 1) * spacing + 2 * padding
+        let totalWidth = OverlayLayoutMetrics.contentWidth(forMethodCount: methods.count)
         let totalHeight = buttonSize + 2 * padding
 
         let backgroundRect = NSRect(
@@ -211,12 +226,12 @@ class OverlayView: NSView {
 
     private func handleClick(at location: NSPoint) {
         // Check if clicked on a method button
-        let methods = viewModel.configuredMethods
-        let buttonSize: CGFloat = 36 // Match the drawing size
-        let spacing: CGFloat = 4
-        let padding: CGFloat = 8
+        let methods = viewModel.overlayMethods
+        let buttonSize = OverlayLayoutMetrics.buttonSize
+        let spacing = OverlayLayoutMetrics.spacing
+        let padding = OverlayLayoutMetrics.padding
 
-        let totalWidth = CGFloat(methods.count) * buttonSize + CGFloat(methods.count - 1) * spacing + 2 * padding
+        let totalWidth = OverlayLayoutMetrics.contentWidth(forMethodCount: methods.count)
         let totalHeight = buttonSize + 2 * padding
 
         let backgroundRect = NSRect(
@@ -241,6 +256,13 @@ class OverlayView: NSView {
 }
 
 // Helper extensions
+private extension OverlayView {
+    func updateWindowSize() {
+        guard let windowController = window?.windowController as? OverlayWindowController else { return }
+        windowController.updateSize(for: viewModel.overlayMethods.count)
+    }
+}
+
 extension CGContext {
     func fill(_ rect: NSRect, withRadius radius: CGFloat) {
         let path = NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius)

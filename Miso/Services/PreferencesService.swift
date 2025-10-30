@@ -42,6 +42,7 @@ class PreferencesService: PreferencesServiceProtocol {
         if let data = try? JSONEncoder().encode(methods) {
             UserDefaults.standard.set(data, forKey: configuredMethodsKey)
             UserDefaults.standard.synchronize()
+            NotificationCenter.default.post(name: .configuredMethodsDidChange, object: nil)
         }
     }
     
@@ -77,4 +78,8 @@ class PreferencesService: PreferencesServiceProtocol {
         UserDefaults.standard.set(enabled, forKey: toggleOverlayOnMenuClickKey)
         UserDefaults.standard.synchronize()
     }
+}
+
+extension Notification.Name {
+    static let configuredMethodsDidChange = Notification.Name("ConfiguredMethodsDidChange")
 }

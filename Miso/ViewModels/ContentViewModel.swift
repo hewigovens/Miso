@@ -65,15 +65,26 @@ class ContentViewModel: ObservableObject {
         let savedMethods = preferencesService.getConfiguredMethods()
         if savedMethods.isEmpty {
             // Load user's actual input methods from system on first launch
-            configuredMethods = inputMethodService.getUserInputMethodsFromSystem()
-            saveConfiguredMethods()
+            let systemMethods = inputMethodService.getUserInputMethodsFromSystem()
+            updateConfiguredMethods(systemMethods)
         } else {
-            configuredMethods = savedMethods
+            updateConfiguredMethods(savedMethods)
         }
     }
     
-    private func saveConfiguredMethods() {
-        preferencesService.saveConfiguredMethods(configuredMethods)
+    private func updateConfiguredMethods(_ methods: [InputMethod]) {
+        var unique: [InputMethod] = []
+        for method in methods {
+            if unique.contains(where: { $0.id == method.id }) {
+                continue
+            }
+            unique.append(method)
+            if unique.count == OverlayLayoutMetrics.maxMethodCount {
+                break
+            }
+        }
+        configuredMethods = unique
+        preferencesService.saveConfiguredMethods(unique)
     }
     
     private func loadToggleOverlaySetting() {
@@ -89,20 +100,17 @@ class ContentViewModel: ObservableObject {
     }
     
     func addInputMethod(_ method: InputMethod) {
-        if !configuredMethods.contains(where: { $0.id == method.id }) {
-            configuredMethods.append(method)
-            saveConfiguredMethods()
-        }
-    }
-    
-    func removeInputMethod(_ method: InputMethod) {
-        configuredMethods.removeAll { $0.id == method.id }
-        saveConfiguredMethods()
+        guard !configuredMethods.contains(where: { $0.id == method.id }) else { return }
+        guard configuredMethods.count < OverlayLayoutMetrics.maxMethodCount else { return }
+        
+        var updated = configuredMethods
+        updated.append(method)
+        updateConfiguredMethods(updated)
     }
     
     func refreshFromSystem() {
-        configuredMethods = inputMethodService.getUserInputMethodsFromSystem()
-        saveConfiguredMethods()
+        let systemMethods = inputMethodService.getUserInputMethodsFromSystem()
+        updateConfiguredMethods(systemMethods)
     }
     
     func openSystemPreferences() {

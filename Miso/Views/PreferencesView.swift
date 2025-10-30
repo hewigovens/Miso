@@ -42,7 +42,7 @@ struct PreferencesView: View {
                     Button(action: {
                         viewModel.refreshFromSystem()
                     }) {
-                        Image(systemName: "arrow.clockwise")
+                        Image(systemName: "arrow.triangle.2.circlepath")
                     }
 
                     Button(action: {
@@ -77,14 +77,6 @@ struct PreferencesView: View {
                                     .foregroundColor(.green)
                                     .font(.caption)
                             }
-
-                            Button(action: {
-                                viewModel.removeInputMethod(method)
-                            }) {
-                                Image(systemName: "minus.circle")
-                                    .foregroundColor(.red)
-                            }
-                            .buttonStyle(PlainButtonStyle())
                         }
                         .padding(.vertical, 4)
                     }

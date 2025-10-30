@@ -15,18 +15,11 @@ class OverlayWindowController: NSWindowController {
     convenience init() {
         // Get actual method count from ViewModel
         let viewModel = OverlayViewModel()
-        let methodCount = max(viewModel.configuredMethods.count, 3) // minimum 3 for layout
-        
-        // Calculate initial size for expanded view (HUD style with smaller buttons)
-        let buttonSize: CGFloat = 36
-        let spacing: CGFloat = 4
-        let padding: CGFloat = 8
-        
-        let totalWidth = CGFloat(methodCount) * buttonSize + CGFloat(methodCount - 1) * spacing + 2 * padding + 20
-        let totalHeight = buttonSize + 2 * padding + 20
+        let methodCount = viewModel.overlayMethods.count
+        let initialSize = OverlayLayoutMetrics.windowSize(forMethodCount: methodCount)
         
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: totalWidth, height: totalHeight),
+            contentRect: NSRect(x: 0, y: 0, width: initialSize.width, height: initialSize.height),
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false
@@ -42,7 +35,7 @@ class OverlayWindowController: NSWindowController {
         window.titleVisibility = .hidden
         window.isReleasedWhenClosed = false
         
-        let overlayView = OverlayView(frame: NSRect(x: 0, y: 0, width: totalWidth, height: totalHeight))
+        let overlayView = OverlayView(frame: NSRect(x: 0, y: 0, width: initialSize.width, height: initialSize.height))
         window.contentView = overlayView
         
         self.init(window: window)
@@ -83,6 +76,31 @@ class OverlayWindowController: NSWindowController {
         let origin = window.frame.origin
         let position = WindowPosition(x: Double(origin.x), y: Double(origin.y))
         overlayWindowService.saveWindowPosition(position)
+    }
+    
+    func updateSize(for methodCount: Int) {
+        guard let window = window else { return }
+        
+        let newSize = OverlayLayoutMetrics.windowSize(forMethodCount: methodCount)
+        var newOrigin = window.frame.origin
+        if let screen = window.screen ?? NSScreen.main {
+            let screenFrame = screen.frame
+            let visibleFrame = screen.visibleFrame
+            let rightMargin: CGFloat = 10
+            let x = screenFrame.maxX - newSize.width - rightMargin
+            
+            let dockHeight = visibleFrame.minY - screenFrame.minY
+            let dockCenterY = screenFrame.minY + (dockHeight / 2)
+            let desiredY = dockCenterY - (newSize.height / 2)
+            let minY = screenFrame.minY + 5
+            let maxY = screenFrame.maxY - newSize.height - 5
+            let clampedY = min(max(desiredY, minY), maxY)
+            newOrigin = NSPoint(x: x, y: clampedY)
+        }
+        
+        window.setFrame(NSRect(origin: newOrigin, size: newSize), display: false)
+        window.contentView?.setFrameSize(newSize)
+        saveWindowPosition()
     }
     
     func show() {

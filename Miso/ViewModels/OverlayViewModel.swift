@@ -18,6 +18,20 @@ class OverlayViewModel: ObservableObject {
     private let inputMethodService: InputMethodServiceProtocol
     private let preferencesService: PreferencesServiceProtocol
     private var cancellables = Set<AnyCancellable>()
+
+    var overlayMethods: [InputMethod] {
+        var unique: [InputMethod] = []
+        for method in configuredMethods {
+            if unique.contains(where: { $0.id == method.id }) {
+                continue
+            }
+            unique.append(method)
+            if unique.count == OverlayLayoutMetrics.maxMethodCount {
+                break
+            }
+        }
+        return unique
+    }
     
     var currentMethod: InputMethod? {
         configuredMethods.first { $0.id == currentInputMethodID }
@@ -32,6 +46,7 @@ class OverlayViewModel: ObservableObject {
         loadConfiguredMethods()
         updateCurrentInputMethod()
         startMonitoringInputMethodChanges()
+        startObservingConfiguredMethodsChanges()
     }
     
     // Convenience initializer that injects shared services
@@ -49,6 +64,15 @@ class OverlayViewModel: ObservableObject {
         } else {
             configuredMethods = savedMethods
         }
+    }
+    
+    private func startObservingConfiguredMethodsChanges() {
+        NotificationCenter.default.publisher(for: .configuredMethodsDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.loadConfiguredMethods()
+            }
+            .store(in: &cancellables)
     }
     
     func toggleExpanded() {

@@ -39,13 +39,11 @@ class OverlayWindowService: OverlayWindowServiceProtocol {
         
         // Calculate actual window size based on number of input methods
         let viewModel = OverlayViewModel()
-        let methodCount = max(viewModel.configuredMethods.count, 3)
-        let buttonSize: CGFloat = 36
-        let spacing: CGFloat = 4
-        let padding: CGFloat = 8
+        let methodCount = viewModel.overlayMethods.count
+        let windowSize = OverlayLayoutMetrics.windowSize(forMethodCount: methodCount)
         
-        let windowWidth = CGFloat(methodCount) * buttonSize + CGFloat(methodCount - 1) * spacing + 2 * padding + 20
-        let windowHeight = buttonSize + 2 * padding + 20
+        let windowWidth = windowSize.width
+        let windowHeight = windowSize.height
         
         // Calculate dock height (dock is at the bottom in macOS coordinates)
         let dockHeight = visibleFrame.minY - screenFrame.minY
