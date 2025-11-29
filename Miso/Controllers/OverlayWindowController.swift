@@ -11,8 +11,14 @@ import SwiftUI
 @MainActor
 class OverlayWindowController: NSWindowController {
     private let overlayWindowService = OverlayWindowService.shared
+    private let fullscreenMonitor: FullscreenMonitorServiceProtocol
+    private var isSuppressedForFullscreen = false
+    private var userWantsVisible = false
+    private var wasVisibleBeforeFullscreen = false
     
-    convenience init() {
+    init(fullscreenMonitor: FullscreenMonitorServiceProtocol = FullscreenMonitorService.shared) {
+        self.fullscreenMonitor = fullscreenMonitor
+        
         // Get actual method count from ViewModel
         let viewModel = OverlayViewModel()
         let methodCount = viewModel.overlayMethods.count
@@ -38,9 +44,15 @@ class OverlayWindowController: NSWindowController {
         let overlayView = OverlayView(frame: NSRect(x: 0, y: 0, width: initialSize.width, height: initialSize.height))
         window.contentView = overlayView
         
-        self.init(window: window)
+        super.init(window: window)
         
         positionWindow()
+        startMonitoringFullscreenChanges()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func positionWindow() {
@@ -104,10 +116,49 @@ class OverlayWindowController: NSWindowController {
     }
     
     func show() {
+        userWantsVisible = true
+        guard !isSuppressedForFullscreen else { return }
         window?.orderFront(nil)
     }
     
     func hide() {
+        userWantsVisible = false
         window?.orderOut(nil)
+    }
+
+    func toggleVisibility() {
+        if userWantsVisible {
+            hide()
+        } else {
+            show()
+        }
+    }
+    
+    @MainActor deinit {
+        fullscreenMonitor.stopMonitoring()
+    }
+}
+
+private extension OverlayWindowController {
+    func startMonitoringFullscreenChanges() {
+        fullscreenMonitor.startMonitoring { [weak self] isFullscreen in
+            self?.setSuppressedForFullscreen(isFullscreen)
+        }
+    }
+    
+    func setSuppressedForFullscreen(_ suppressed: Bool) {
+        guard suppressed != isSuppressedForFullscreen else { return }
+        isSuppressedForFullscreen = suppressed
+        
+        if suppressed {
+            wasVisibleBeforeFullscreen = (window?.isVisible ?? false) || userWantsVisible
+            window?.orderOut(nil)
+            return
+        }
+        
+        if userWantsVisible {
+            window?.orderFront(nil)
+        }
+        wasVisibleBeforeFullscreen = false
     }
 }

@@ -97,14 +97,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func toggleOverlay() {
-        if let window = overlayWindowController?.window {
-            if window.isVisible {
-                overlayWindowController?.hide()
-            } else {
-                overlayWindowController?.show()
-            }
-            appViewModel.toggleOverlay()
-        }
+        guard let overlayWindowController else { return }
+        
+        overlayWindowController.toggleVisibility()
+        appViewModel.toggleOverlay()
     }
 
     @objc func showPreferences() {
