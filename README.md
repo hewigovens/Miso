@@ -27,11 +27,20 @@ A lightweight macOS menu bar utility that provides a floating HUD overlay for qu
 - macOS 12.0 (Monterey) or later.
 - No additional permissions are required for the core functionality.
 
-### Download
+### Installation
 
-1. Download the latest release from the [GitHub Releases](https://github.com/hewigovens/Miso/releases) page.
-2. Unzip the downloaded file and drag `MISO.app` to your Applications folder.
-3. Launch MISO, and it will appear in your menu bar.
+Miso can be installed via Homebrew or by manually downloading the latest release.
+
+#### Homebrew
+
+```bash
+brew tap hewigovens/tap
+brew install --cask miso
+```
+
+#### Manual Download
+
+Download the latest release from the [GitHub Releases](https://github.com/hewigovens/Miso/releases) page. Unzip the downloaded file and drag `MISO.app` to your Applications folder.
 
 ### Build from Source
 
