@@ -1,10 +1,12 @@
 # MISO - Method Input Switch Overlay
 
-A lightweight macOS menu bar utility that provides a floating HUD overlay for quick input method switching.
-
+[![CI](https://github.com/hewigovens/Miso/actions/workflows/ci.yml/badge.svg)](https://github.com/hewigovens/Miso/actions/workflows/ci.yml)
+![Release](https://img.shields.io/github/v/release/hewigovens/Miso)
 ![macOS](https://img.shields.io/badge/macOS-12.0+-blue)
 ![Swift](https://img.shields.io/badge/Swift-5.7+-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+A lightweight macOS menu bar utility that provides a floating HUD overlay for quick input method switching.
 
 ## Features
 
