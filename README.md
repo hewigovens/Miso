@@ -3,28 +3,13 @@
 [![CI](https://github.com/hewigovens/Miso/actions/workflows/ci.yml/badge.svg)](https://github.com/hewigovens/Miso/actions/workflows/ci.yml)
 ![Release](https://img.shields.io/github/v/release/hewigovens/Miso)
 ![macOS](https://img.shields.io/badge/macOS-12.0+-blue)
-![Swift](https://img.shields.io/badge/Swift-5.7+-orange)
 ![License](https://img.shields.io/badge/License-BSL--1.1-green)
 
-A lightweight macOS menu bar utility that provides a floating HUD overlay for quick input method switching.
-
-## Features
-
-- **🚀 Zero Permissions Required** - Core functionality works immediately without setup.
-- **🎯 HUD-Style Overlay** - A beautiful floating interface for quick switching.
-- **⚡ Native Performance** - Built with AppKit and SwiftUI for optimal speed.
-- **🎨 Customizable** - Configure which input methods to display.
-- **📱 Menu Bar Integration** - Lives quietly in your menu bar.
-- **💾 Position Memory** - Remembers the overlay position across launches.
-- **🔄 Auto-Detection** - Automatically discovers system input methods.
-
-## Screenshots
+A lightweight macOS menu bar utility for quick input method switching via a floating HUD overlay. Zero permissions required.
 
 <img src="docs/menubar.png" width=300 /> <img src="docs/overley.png" width=250 />
 
-## Installation
-
-Miso can be installed via Homebrew or by manually downloading the latest release.
+## Install
 
 ### Homebrew
 
@@ -33,95 +18,22 @@ brew tap hewigovens/tap
 brew install --cask miso
 ```
 
-### Manual Download
-
-Download the latest release from the [GitHub Releases](https://github.com/hewigovens/Miso/releases) page. Unzip the downloaded file and drag `MISO.app` to your Applications folder.
-
-## Build from Source
-
-### Requirements
-
-- macOS 12.0 (Monterey) or later.
-- No additional permissions are required for the core functionality.
-
-### Steps
-
-```bash
-git clone https://github.com/hewigovens/miso.git
-cd miso
-open Miso.xcodeproj
-```
-
-Build and run in Xcode 16.0 or later.
+Or download from [GitHub Releases](https://github.com/hewigovens/Miso/releases).
 
 ## Usage
 
-### Quick Start
+1. Launch MISO — look for the icon in your menu bar
+2. Open Preferences to configure which input methods to display
+3. Toggle the floating HUD overlay from the menu
+4. Click any input method to switch immediately
+5. Drag the overlay to reposition it
 
-1. **Launch MISO** - Look for the 🌐 icon in your menu bar.
-2. **Configure Methods** - Click the menu bar icon, then select "Preferences..." to set up your input methods.
-3. **Use Overlay** - Click "Show/Hide Overlay" to toggle the floating HUD.
-
-### Overlay Controls
-
-- **Click an input method** to switch immediately.
-- **Drag the overlay** to reposition it anywhere on the screen.
-- The position is automatically saved.
-
-### Configuration
-
-Open **Preferences** to:
-- **Refresh from system** to detect new input methods.
-- **Open Input Sources Settings** to configure system input methods.
-- **Toggle launch at login** (requires macOS 13+).
-
-## How It Works
-
-MISO uses macOS's built-in **Text Input Source APIs**, which require no special permissions:
-
-- `TISCopyCurrentKeyboardInputSource()`: Detects the current input method.
-- `TISSelectInputSource()`: Switches between input methods.
-- `TISCreateInputSourceList()`: Discovers available methods.
-
-This makes MISO a **zero-permission** utility that works immediately after installation.
-
-## Architecture
-
-MISO is built with modern Swift patterns:
-
-- **MVVM Architecture**: For a clean separation of concerns.
-- **Protocol-Oriented Design**: To ensure testable and maintainable code.
-- **SwiftUI + AppKit Hybrid**: Combining the best of both frameworks.
-- **Reactive UI**: For real-time updates with Combine.
-
-See [AGENTS.md](AGENTS.md) for detailed technical documentation.
+MISO uses macOS Text Input Source APIs, which require no special permissions.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request.
-
-### Development Setup
-
-1. Clone the repository.
-2. Open `Miso.xcodeproj` in Xcode 14.0 or later.
-3. Build and run the project.
-
-### Code Style
-
-- Follow standard Swift naming conventions.
-- Use the MVVM pattern for new features.
-- Add protocol interfaces for services.
-- Write unit tests for business logic.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
 BSL 1.1 — free to use, modify, and redistribute; paid app store distribution requires permission. Converts to Apache-2.0 on 2030-03-23. See [LICENSE](LICENSE).
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/hewigovens/Miso/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/hewigovens/Miso/discussions)
-
----
-
-Made with ❤️ for the macOS community
