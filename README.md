@@ -4,7 +4,7 @@
 ![Release](https://img.shields.io/github/v/release/hewigovens/Miso)
 ![macOS](https://img.shields.io/badge/macOS-12.0+-blue)
 ![Swift](https://img.shields.io/badge/Swift-5.7+-orange)
-![License](https://img.shields.io/badge/License-Apache--2.0-green)
+![License](https://img.shields.io/badge/License-BSL--1.1-green)
 
 A lightweight macOS menu bar utility that provides a floating HUD overlay for quick input method switching.
 
@@ -115,7 +115,7 @@ Contributions are welcome! Please feel free to submit a pull request.
 
 ## License
 
-Apache-2.0 with additional App Store restriction. See [LICENSE](LICENSE).
+BSL 1.1 — free to use, modify, and redistribute; paid app store distribution requires permission. Converts to Apache-2.0 on 2030-03-23. See [LICENSE](LICENSE).
 
 ## Support
 
